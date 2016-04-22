@@ -20,10 +20,10 @@
 		3B1411611CC0201000DAC8E8 /* NSData+CRC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1411531CC0201000DAC8E8 /* NSData+CRC.m */; };
 		3B1411621CC0201000DAC8E8 /* VideoCMSampleBufferReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B1411541CC0201000DAC8E8 /* VideoCMSampleBufferReader.h */; };
 		3B1411631CC0201000DAC8E8 /* VideoCMSampleBufferReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1411551CC0201000DAC8E8 /* VideoCMSampleBufferReader.m */; };
-		3B1411681CC020BC00DAC8E8 /* VAACTSWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B1411641CC020BC00DAC8E8 /* VAACTSWrapper.h */; };
-		3B1411691CC020BC00DAC8E8 /* VAACTSWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1411651CC020BC00DAC8E8 /* VAACTSWrapper.m */; };
-		3B14116A1CC020BC00DAC8E8 /* VAudioAACProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B1411661CC020BC00DAC8E8 /* VAudioAACProcessor.h */; };
-		3B14116B1CC020BC00DAC8E8 /* VAudioAACProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1411671CC020BC00DAC8E8 /* VAudioAACProcessor.m */; };
+		3B1411681CC020BC00DAC8E8 /* AACTSWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B1411641CC020BC00DAC8E8 /* AACTSWrapper.h */; };
+		3B1411691CC020BC00DAC8E8 /* AACTSWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1411651CC020BC00DAC8E8 /* AACTSWrapper.m */; };
+		3B14116A1CC020BC00DAC8E8 /* AudioAACProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B1411661CC020BC00DAC8E8 /* AudioAACProcessor.h */; };
+		3B14116B1CC020BC00DAC8E8 /* AudioAACProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1411671CC020BC00DAC8E8 /* AudioAACProcessor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,10 +42,10 @@
 		3B1411531CC0201000DAC8E8 /* NSData+CRC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CRC.m"; sourceTree = "<group>"; };
 		3B1411541CC0201000DAC8E8 /* VideoCMSampleBufferReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCMSampleBufferReader.h; sourceTree = "<group>"; };
 		3B1411551CC0201000DAC8E8 /* VideoCMSampleBufferReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCMSampleBufferReader.m; sourceTree = "<group>"; };
-		3B1411641CC020BC00DAC8E8 /* VAACTSWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAACTSWrapper.h; sourceTree = "<group>"; };
-		3B1411651CC020BC00DAC8E8 /* VAACTSWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAACTSWrapper.m; sourceTree = "<group>"; };
-		3B1411661CC020BC00DAC8E8 /* VAudioAACProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAudioAACProcessor.h; sourceTree = "<group>"; };
-		3B1411671CC020BC00DAC8E8 /* VAudioAACProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAudioAACProcessor.m; sourceTree = "<group>"; };
+		3B1411641CC020BC00DAC8E8 /* AACTSWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AACTSWrapper.h; sourceTree = "<group>"; };
+		3B1411651CC020BC00DAC8E8 /* AACTSWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AACTSWrapper.m; sourceTree = "<group>"; };
+		3B1411661CC020BC00DAC8E8 /* AudioAACProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioAACProcessor.h; sourceTree = "<group>"; };
+		3B1411671CC020BC00DAC8E8 /* AudioAACProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioAACProcessor.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,10 +88,10 @@
 		3B1411471CC01FEE00DAC8E8 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				3B1411641CC020BC00DAC8E8 /* VAACTSWrapper.h */,
-				3B1411651CC020BC00DAC8E8 /* VAACTSWrapper.m */,
-				3B1411661CC020BC00DAC8E8 /* VAudioAACProcessor.h */,
-				3B1411671CC020BC00DAC8E8 /* VAudioAACProcessor.m */,
+				3B1411641CC020BC00DAC8E8 /* AACTSWrapper.h */,
+				3B1411651CC020BC00DAC8E8 /* AACTSWrapper.m */,
+				3B1411661CC020BC00DAC8E8 /* AudioAACProcessor.h */,
+				3B1411671CC020BC00DAC8E8 /* AudioAACProcessor.m */,
 				3B1411481CC0201000DAC8E8 /* BitStream.h */,
 				3B1411491CC0201000DAC8E8 /* BitStream.m */,
 				3B14114A1CC0201000DAC8E8 /* FileOutput.h */,
@@ -115,7 +115,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B1411681CC020BC00DAC8E8 /* VAACTSWrapper.h in Headers */,
+				3B1411681CC020BC00DAC8E8 /* AACTSWrapper.h in Headers */,
 				3B1411561CC0201000DAC8E8 /* BitStream.h in Headers */,
 				3B1411581CC0201000DAC8E8 /* FileOutput.h in Headers */,
 				3B1411601CC0201000DAC8E8 /* NSData+CRC.h in Headers */,
@@ -123,7 +123,7 @@
 				3B14115C1CC0201000DAC8E8 /* Mpeg2TSWriter.h in Headers */,
 				3B14115A1CC0201000DAC8E8 /* MediaStream.h in Headers */,
 				3B1411621CC0201000DAC8E8 /* VideoCMSampleBufferReader.h in Headers */,
-				3B14116A1CC020BC00DAC8E8 /* VAudioAACProcessor.h in Headers */,
+				3B14116A1CC020BC00DAC8E8 /* AudioAACProcessor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,8 +197,8 @@
 				3B1411591CC0201000DAC8E8 /* FileOutput.m in Sources */,
 				3B1411631CC0201000DAC8E8 /* VideoCMSampleBufferReader.m in Sources */,
 				3B1411611CC0201000DAC8E8 /* NSData+CRC.m in Sources */,
-				3B1411691CC020BC00DAC8E8 /* VAACTSWrapper.m in Sources */,
-				3B14116B1CC020BC00DAC8E8 /* VAudioAACProcessor.m in Sources */,
+				3B1411691CC020BC00DAC8E8 /* AACTSWrapper.m in Sources */,
+				3B14116B1CC020BC00DAC8E8 /* AudioAACProcessor.m in Sources */,
 				3B14115D1CC0201000DAC8E8 /* Mpeg2TSWriter.m in Sources */,
 				3B1411571CC0201000DAC8E8 /* BitStream.m in Sources */,
 				3B14115B1CC0201000DAC8E8 /* MediaStream.m in Sources */,
@@ -349,6 +349,7 @@
 				3B1411461CC01FD300DAC8E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

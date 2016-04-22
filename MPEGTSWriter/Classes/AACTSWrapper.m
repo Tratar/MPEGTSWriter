@@ -5,15 +5,15 @@
 //  Created by Michael Belenchenko on 12/16/15.
 //
 
-#import "VAACTSWrapper.h"
+#import "AACTSWrapper.h"
 
 static const size_t kAdtsHeaderLength = 7;
 
-@interface VAACTSWrapper()
+@interface AACTSWrapper()
 
 @end
 
-@implementation VAACTSWrapper
+@implementation AACTSWrapper
 
 static void MakeAdtsHeader(unsigned char bits[7], unsigned int frame_size)
 {

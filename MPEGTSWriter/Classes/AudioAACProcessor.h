@@ -8,11 +8,11 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
-@protocol VAudioAACProcessorDelegate;
+@protocol AudioAACProcessorDelegate;
 
-@interface VAudioAACProcessor : NSObject
+@interface AudioAACProcessor : NSObject
 
-@property (weak, nonatomic) id<VAudioAACProcessorDelegate> delegate;
+@property (weak, nonatomic) id<AudioAACProcessorDelegate> delegate;
 @property (readonly, nonatomic) AudioStreamBasicDescription outDescription;
 
 - (void)addData:(NSData *)data context:(id)context;
@@ -21,8 +21,8 @@
 
 @end
 
-@protocol VAudioAACProcessorDelegate<NSObject>
+@protocol AudioAACProcessorDelegate<NSObject>
 
-- (void)audioAACProcessor:(VAudioAACProcessor *)audioAACProcessor processedDataWithResult:(NSData *)data context:(NSObject *)context lastData:(BOOL)lastData;
+- (void)audioAACProcessor:(AudioAACProcessor *)audioAACProcessor processedDataWithResult:(NSData *)data context:(NSObject *)context lastData:(BOOL)lastData;
 
 @end

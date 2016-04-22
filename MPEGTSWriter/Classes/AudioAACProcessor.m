@@ -5,7 +5,7 @@
 //  Created by Michael Belenchenko on 12/16/15.
 //
 
-#import "VAudioAACProcessor.h"
+#import "AudioAACProcessor.h"
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 
@@ -13,7 +13,7 @@
 
 @import AudioToolbox;
 
-@interface VAudioAACProcessor()
+@interface AudioAACProcessor()
 
 @property (assign, nonatomic) BOOL isFinished;
 @property (assign, nonatomic) BOOL isInitial;
@@ -26,9 +26,9 @@
 
 @end
 
-@implementation VAudioAACProcessor
+@implementation AudioAACProcessor
 
-- (VAudioAACProcessor *)init
+- (AudioAACProcessor *)init
 {
     self = [super init];
     
@@ -78,7 +78,7 @@
 
 OSStatus inInputDataProc(AudioConverterRef inAudioConverter, UInt32 *ioNumberDataPackets, AudioBufferList *ioData, AudioStreamPacketDescription **outDataPacketDescription, void *inUserData)
 {
-    VAudioAACProcessor *selF = (__bridge VAudioAACProcessor *)inUserData;
+    AudioAACProcessor *selF = (__bridge AudioAACProcessor *)inUserData;
     
     NSData *data = [selF.requests firstObject];
     

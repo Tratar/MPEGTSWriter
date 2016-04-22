@@ -9,7 +9,7 @@
 #import "MediaStream.h"
 #import "BitStream.h"
 #import "FileOutput.h"
-#import "VAACTSWrapper.h"
+#import "AACTSWrapper.h"
 
 #import "NSData+CRC.h"
 
@@ -25,9 +25,33 @@
 #define STREAM_TYPE_AAC 0x0F
 #define STREAM_TYPE_AVC 0x1B
 
-@interface Mpeg2TSWriterPauseWrapper()
+@interface Mpeg2TSWriter()
 
-@property (nonatomic, strong) Mpeg2TSWriter *writer;
+@property (nonatomic, strong) Stream *pat;
+@property (nonatomic, strong) Stream *pmt;
+@property (nonatomic, strong) MediaStream *audioStream;
+@property (nonatomic, strong) MediaStream *videoStream;
+@property (nonatomic, strong) FileOutput *fileOutput;
+
+@property (nonatomic, assign) BOOL isFinished;
+
+@property (nonatomic, assign) double currentVideoDuration;
+@property (nonatomic, assign) double currentAudioDuration;
+@property (nonatomic, assign) unsigned int audioFramesCount;
+@property (nonatomic, assign) unsigned int videoFramesCount;
+@property (nonatomic, assign) unsigned int currentSegment;
+@property (nonatomic, assign) double lastAudioTs;
+@property (nonatomic, assign) double lastVideoTs;
+@property (nonatomic, assign) double lastTs;
+@property (nonatomic, assign) double desirableSegmentDuration;
+@property (nonatomic, assign) unsigned long long startPTS;
+
+@property (nonatomic, strong) NSMutableArray *durations;
+@property (nonatomic, strong) AACTSWrapper *AACTSWrapper;
+
+@property (nonatomic, copy) NSString *outputPathPattern;
+
+// Pause
 @property (nonatomic, assign) BOOL requestedPause;
 @property (nonatomic, assign) BOOL requestedUnPause;
 @property (nonatomic, assign) BOOL semanticallyPaused;
@@ -37,15 +61,25 @@
 
 @end
 
-@implementation Mpeg2TSWriterPauseWrapper
+@implementation Mpeg2TSWriter
 
-- (id)initWithWriter:(Mpeg2TSWriter *)writer
+- (id)initOutputPathPattern:(NSString *)outputPathPattern segmentLength:(float)segmentLength
 {
     self = [super init];
     
     if (self)
     {
-        _writer = writer;
+        _audioStream = [[MediaStream alloc] initWithPid:AUDIO_PID streamID:AUDIO_PID streamType:STREAM_TYPE_AAC timeScale:VIDEO_TIME_SCALE isVideoStream:NO];
+
+        _videoStream = [[MediaStream alloc] initWithPid:VIDEO_PID streamID:VIDEO_SID streamType:STREAM_TYPE_AVC timeScale:VIDEO_TIME_SCALE isVideoStream:YES];
+        
+        _pat = [[Stream alloc] initWithPid:PAT_PID];
+        _pmt = [[Stream alloc] initWithPid:PMT_PID];
+        
+        _durations = [NSMutableArray new];
+        _outputPathPattern = outputPathPattern;
+        _desirableSegmentDuration = segmentLength;
+        _AACTSWrapper = [[AACTSWrapper alloc] init];
     }
     
     return self;
@@ -71,7 +105,7 @@
     {
         pts.value -= self.pausedTime;
         dts.value -= self.pausedTime;
-        [self.writer writeVideoFrameData:data sps:sps pps:pps pts:pts dts:dts isSync:isSync];
+        [self writeVideoFrameDataImpl:data sps:sps pps:pps pts:pts dts:dts isSync:isSync];
     }
 }
 
@@ -80,87 +114,11 @@
     if (!self.actuallyPaused)
     {
         pts.value -= self.pausedTime;
-        [self.writer writeAudioFrameData:data pts:pts writePCR:pcr];
+        [self writeAudioFrameData:data pts:pts writePCR:pcr];
     }
 }
 
-- (void)finish
-{
-    [self.writer finish];
-}
-
-- (void)pause
-{
-    self.requestedPause = YES;
-    self.semanticallyPaused = YES;
-}
-
-- (void)unpause
-{
-    self.requestedUnPause = YES;
-    self.semanticallyPaused = NO;
-}
-
-- (BOOL)isPaused
-{
-    return self.semanticallyPaused;
-}
-
-@end
-
-@interface Mpeg2TSWriter()
-
-@property (nonatomic, strong) Stream *pat;
-@property (nonatomic, strong) Stream *pmt;
-@property (nonatomic, strong) MediaStream *audioStream;
-@property (nonatomic, strong) MediaStream *videoStream;
-@property (nonatomic, strong) FileOutput *fileOutput;
-
-@property (nonatomic, assign) BOOL isFinished;
-
-@property (nonatomic, assign) double currentVideoDuration;
-@property (nonatomic, assign) double currentAudioDuration;
-@property (nonatomic, assign) unsigned int audioFramesCount;
-@property (nonatomic, assign) unsigned int videoFramesCount;
-@property (nonatomic, assign) unsigned int currentSegment;
-@property (nonatomic, assign) double lastAudioTs;
-@property (nonatomic, assign) double lastVideoTs;
-@property (nonatomic, assign) double lastTs;
-@property (nonatomic, assign) double desirableSegmentDuration;
-@property (nonatomic, assign) unsigned long long startPTS;
-
-@property (nonatomic, strong) NSMutableArray *durations;
-@property (nonatomic, strong) VAACTSWrapper *AACTSWrapper;
-
-@property (nonatomic, copy) NSString *outputPathPattern;
-
-@end
-
-@implementation Mpeg2TSWriter
-
-- (id)initOutputPath:(NSString *)outputPath segmentLength:(float)segmentLength
-{
-    self = [super init];
-    
-    if (self)
-    {
-        _audioStream = [[MediaStream alloc] initWithPid:AUDIO_PID streamID:AUDIO_PID streamType:STREAM_TYPE_AAC timeScale:VIDEO_TIME_SCALE isVideoStream:NO];
-
-        _videoStream = [[MediaStream alloc] initWithPid:VIDEO_PID streamID:VIDEO_SID streamType:STREAM_TYPE_AVC timeScale:VIDEO_TIME_SCALE isVideoStream:YES];
-        
-        _pat = [[Stream alloc] initWithPid:PAT_PID];
-        _pmt = [[Stream alloc] initWithPid:PMT_PID];
-        
-        _durations = [NSMutableArray new];
-        _outputPathPattern = outputPath;
-        _desirableSegmentDuration = segmentLength;
-        _AACTSWrapper = [[VAACTSWrapper alloc] init];
-    }
-    
-    return self;
-}
-
-- (void)writeVideoFrameData:(NSData *)data sps:(NSData *)sps pps:(NSData *)pps pts:(CMTime)pts dts:(CMTime)dts isSync:(BOOL)isSync
+- (void)writeVideoFrameDataImpl:(NSData *)data sps:(NSData *)sps pps:(NSData *)pps pts:(CMTime)pts dts:(CMTime)dts isSync:(BOOL)isSync
 {
     @synchronized(self)
     {
@@ -182,7 +140,7 @@
     }
 }
 
-- (void)writeAudioFrameData:(NSData *)data pts:(CMTime)pts writePCR:(BOOL)pcr
+- (void)writeVideoFrameDataImpl:(NSData *)data pts:(CMTime)pts writePCR:(BOOL)pcr
 {
     @synchronized(self)
     {
@@ -294,5 +252,25 @@
 {
     return [[FileOutput alloc] initWithPath:path];
 }
+
+#pragma mark Pause
+
+- (void)pause
+{
+    self.requestedPause = YES;
+    self.semanticallyPaused = YES;
+}
+
+- (void)unpause
+{
+    self.requestedUnPause = YES;
+    self.semanticallyPaused = NO;
+}
+
+- (BOOL)isPaused
+{
+    return self.semanticallyPaused;
+}
+
 
 @end

@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface VAACTSWrapper : NSObject
+@interface AACTSWrapper : NSObject
 
 - (NSData *)addADTSHeader:(NSData *)data;
 
